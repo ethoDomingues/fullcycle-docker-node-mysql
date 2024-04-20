@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  db:
+    image: postgres # "volume" num ta funcionando não 
+    container_name: db
+    build:
+      context: ./postgres
+    restart: always
+    tty: true
+    networks:
+      - valdinet 
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  node:
+    container_name: node
+    build:
+      context: ./node
+    tty: true
+    networks:
+      - valdinet
+    volumes:
+      - ./node:/usr/share/app
+    depends_on:
+      db:
+        condition: service_healthy
+  nginx:
+    container_name: nginx
+    tty: true
+    build:
+      context: ./nginx
+    ports:
+      - "3000:80"
+    networks:
+      - valdinet
+    depends_on:
+      - node
+
+networks:
+  valdinet:
+    name: valdinet
+    driver: bridge
