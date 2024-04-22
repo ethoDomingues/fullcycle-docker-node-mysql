@@ -1,5 +1,0 @@
-FROM postgres
-
-ENV POSTGRES_DB="nodedb"
-ENV POSTGRES_USER="batata"
-ENV POSTGRES_PASSWORD="batata"
