@@ -10,9 +10,7 @@ services:
     networks:
       - valdinet
     volumes:
-      - type: bind
-        source: ./mysql
-        target: /var/lib/mysql
+      - ./mysql/:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=batata
